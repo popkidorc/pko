@@ -45,6 +45,11 @@
 			<version>3.0-alpha-1</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.2.8</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>pko</finalName>
