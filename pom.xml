@@ -80,6 +80,12 @@
 			<version>${version_logbackSpring}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>${version_ehcache}</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>pko</finalName>
@@ -93,5 +99,6 @@
 		<version_junit>4.12</version_junit>
 		<version_logbackSpring>0.1.2</version_logbackSpring>
 		<version_servlet>3.0-alpha-1</version_servlet>
+		<version_ehcache>2.9.1</version_ehcache>
 	</properties>
 </project>
