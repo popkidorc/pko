@@ -33,7 +33,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.springframework" level="trace" additivity="true">
+	<logger name="org.springframework" level="warn" additivity="true">
 		<appender-ref ref="rollingFileAppender" />
 		<!-- <appender-ref ref="STDOUT" /> -->
 	</logger>

@@ -54,6 +54,11 @@
 			<version>${version_mybatis}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-ehcache</artifactId>
+			<version>${version_mybatis_ehcache}</version>
+		</dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${version_mysql}</version>
@@ -100,5 +105,6 @@
 		<version_logbackSpring>0.1.2</version_logbackSpring>
 		<version_servlet>3.0-alpha-1</version_servlet>
 		<version_ehcache>2.9.1</version_ehcache>
+		<version_mybatis_ehcache>1.0.0</version_mybatis_ehcache>
 	</properties>
 </project>

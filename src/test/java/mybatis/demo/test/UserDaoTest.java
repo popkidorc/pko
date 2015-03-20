@@ -24,14 +24,14 @@ public class UserDaoTest {
 
 		SqlSession session = factory.openSession();
 		UserDao userDao = session.getMapper(UserDao.class);
-
-		User user = new User();
-		user.setUserName("popkidorc2");
-		user.setPassword("123456");
-		user.setComment("备注");
-
-		userDao.insert(user);
-		System.out.println("记录条数：" + userDao.countAll());
+//
+//		User user = new User();
+//		user.setUserName("popkidorc2");
+//		user.setPassword("123456");
+//		user.setComment("备注");
+//
+//		userDao.insert(user);
+//		System.out.println("记录条数：" + userDao.countAll());
 
 		List<User> users = userDao.selectAll();
 		Iterator<User> iter = users.iterator();
@@ -41,13 +41,13 @@ public class UserDaoTest {
 					+ u.getPassword());
 		}
 
-		user.setComment("comment");
-		userDao.update(user);
-		User u = userDao.findByUserName("hongye");
-		System.out.println(u.getComment());
-
-		userDao.delete("hongye");
-		System.out.println("记录条数：" + userDao.countAll());
+//		user.setComment("comment");
+//		userDao.update(user);
+//		User u = userDao.findByUserName("hongye");
+//		System.out.println(u.getComment());
+//
+//		userDao.delete("hongye");
+//		System.out.println("记录条数：" + userDao.countAll());
 
 		session.commit();
 		session.close();
