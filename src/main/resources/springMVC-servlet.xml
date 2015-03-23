@@ -8,17 +8,30 @@
             http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd              
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-	<!-- 激活@Controller模式 -->
+	<!-- 激活注解模式 -->
 	<mvc:annotation-driven />
 
 	<!-- 对包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 需要更改 -->
-	<context:component-scan base-package="spring.demo.webmvc" />
+	<!-- <context:component-scan base-package="spring.demo.webmvc" /> -->
+	<!-- 处理器 -->
+	<bean name="/login" class="spring.demo.webmvc.LoginController" />
 
-	<bean id="annotationMethodHandlerAdapter"
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	<!-- HandlerMapping -->
+	<bean
+		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
 
+	<!-- HandlerAdapter -->
+	<bean
+		class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+	<!-- <bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" /> -->
+
+	<!-- ViewResolver -->
 	<bean id="internalResourceViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.JstlView</value>
+		</property>
 		<property name="prefix">
 			<value>/WEB-INF/jsp/</value>
 		</property>
