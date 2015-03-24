@@ -8,23 +8,25 @@
             http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd              
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-	<!-- 激活注解模式 -->
+	<!-- 激活注解模式 相当于注册了DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter两个bean， 
+		配置一些messageconverter。 即解决了@Controller注解的使用前提配置。 -->
 	<mvc:annotation-driven />
 
-	<!-- 对包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 需要更改 -->
-	<!-- <context:component-scan base-package="spring.demo.webmvc" /> -->
+	<!-- 对包进行扫描，实现注释驱动Bean定义，同时将bean自动注入容器中使用。 即解决了@Controller标识的类的bean的注入和使用。 -->
+	<context:component-scan base-package="spring.demo.webmvc" />
+
 	<!-- 处理器 -->
-	<bean name="/login" class="spring.demo.webmvc.LoginController" />
+	<!-- <bean name="/login" class="spring.demo.webmvc.LoginController" /> -->
 
 	<!-- HandlerMapping -->
 	<bean
 		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
 
 	<!-- HandlerAdapter -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" 
+		/> -->
 	<bean
-		class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
-	<!-- <bean
-		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" /> -->
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
 
 	<!-- ViewResolver -->
 	<bean id="internalResourceViewResolver"
