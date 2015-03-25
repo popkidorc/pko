@@ -11,7 +11,6 @@
 		value="258456" /> </dataSource> </environment> </environments> -->
 
 	<mappers>
-		<mapper namespace="mybatis.demo.config.UserDao"
-			resource="./UserDaoMapper.xml" />
+		<mapper resource="./UserDaoMapper.xml" />
 	</mappers>
 </configuration>
