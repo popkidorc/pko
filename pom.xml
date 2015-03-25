@@ -27,7 +27,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
+			<artifactId>spring-jdbc</artifactId>
 			<version>${version_spring}</version>
 		</dependency>
 		<dependency>
@@ -58,6 +58,13 @@
 			<artifactId>mybatis-ehcache</artifactId>
 			<version>${version_mybatis_ehcache}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${version_mybatis_spring}</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -111,6 +118,7 @@
 		<version_servlet>3.0-alpha-1</version_servlet>
 		<version_ehcache>2.9.1</version_ehcache>
 		<version_mybatis_ehcache>1.0.0</version_mybatis_ehcache>
+		<version_mybatis_spring>1.2.2</version_mybatis_spring>
 		<version_jstl>1.2</version_jstl>
 	</properties>
 </project>

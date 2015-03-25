@@ -1,4 +1,4 @@
-package mybatis.demo.test;
+package test.demo.mybatis;
 
 import java.io.Reader;
 import java.util.Iterator;

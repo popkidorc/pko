@@ -2,6 +2,8 @@ package mybatis.demo.config;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 public interface UserDao {
 
 	public int insert(User user);

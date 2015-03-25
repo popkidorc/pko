@@ -1,4 +1,4 @@
-package logback.demo.test;
+package test.demo.logback;
 
 import org.junit.Test;
 import org.slf4j.Logger;
