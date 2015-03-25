@@ -3,9 +3,6 @@ package spring.demo.webmvc;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mybatis.demo.config.User;
-import mybatis.demo.config.UserDao;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +12,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import demo.mybatis.pojo.User;
+import demo.mybatis.service.IUserService;
+
 @Controller
 public class LoginController {
 	static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 	@Autowired
-	private UserDao mapper;
+	private IUserService userService;
 
 	@ModelAttribute("user")
 	public User getUser(
 			@RequestParam(value = "username", defaultValue = "") String username) {
 		// TODO 去数据库根据用户名查找用户对象
-		User user = mapper.findByUserName(username);
+		User user = userService.find(username);
 		user.setUserName(username);
 		user.setPassword("123");
 		return user;

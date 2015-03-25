@@ -4,14 +4,14 @@ import java.io.Reader;
 import java.util.Iterator;
 import java.util.List;
 
-import mybatis.demo.config.User;
-import mybatis.demo.config.UserDao;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
+
+import demo.mybatis.dao.IUserDao;
+import demo.mybatis.pojo.User;
 
 public class UserDaoTest {
 
@@ -23,7 +23,7 @@ public class UserDaoTest {
 		SqlSessionFactory factory = builder.build(reader);
 
 		SqlSession session = factory.openSession();
-		UserDao userDao = session.getMapper(UserDao.class);
+		IUserDao userDao = session.getMapper(IUserDao.class);
 		//
 		// User user = new User();
 		// user.setUserName("popkidorc2");

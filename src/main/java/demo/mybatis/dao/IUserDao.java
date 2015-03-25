@@ -1,10 +1,10 @@
-package mybatis.demo.config;
+package demo.mybatis.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import demo.mybatis.pojo.User;
 
-public interface UserDao {
+public interface IUserDao {
 
 	public int insert(User user);
 

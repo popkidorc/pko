@@ -7,17 +7,21 @@ import org.springframework.context.annotation.Configuration;
 
 import spring.demo.simple.MessageService.MessagePrinter;
 
-//@Configuration ÓÃÓÚ±ê×¢1¸öÀà£¬±íÊ¾bean¶¨ÒåµÄÔ´ÎÄ¼ş£¨source£©£»
-//@ComponentScan ÓÃÓÚ±ê×¢1¸öÀà£¬±íÊ¾É¨ÃèÖ¸¶¨°üÖĞµÄ@Component±ê×¢µÄÀà£¬²¢½«ÕâĞ©Àà×¢²áÎªSpring IoCÈİÆ÷µÄbean,ÒàÏàµ±ÓÚ1¸ö<bean/>ÔªËØ£»
+//@Configuration ï¿½ï¿½ï¿½Ú±ï¿½×¢1ï¿½ï¿½ï¿½à£¬ï¿½ï¿½Ê¾beanï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½Ä¼ï¿½ï¿½ï¿½sourceï¿½ï¿½ï¿½ï¿½
+//@ComponentScan ï¿½ï¿½ï¿½Ú±ï¿½×¢1ï¿½ï¿½ï¿½à£¬ï¿½ï¿½Ê¾É¨ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½@Componentï¿½ï¿½×¢ï¿½ï¿½ï¿½à£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ©ï¿½ï¿½×¢ï¿½ï¿½ÎªSpring IoCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bean,ï¿½ï¿½ï¿½àµ±ï¿½ï¿½1ï¿½ï¿½<bean/>Ôªï¿½Ø£ï¿½
 @Configuration
-@ComponentScan(basePackages = { "spring.demo.simple.MessageService" })
+@ComponentScan(basePackages = { "spring.demo.simple.MessageService",
+		"demo.mybatis.dao" })
 public class Application {
 
 	/**
-	 * ÄäÃûÄÚ²¿ÀàÊµÏÖÁËMessageService½Ó¿Ú£¬²¢ÔÚgetMessage()·½·¨ÖĞ·µ»ØÁË¡°hello,world!¡±×Ö·û´®£¬
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½MessageServiceï¿½Ó¿Ú£ï¿½ï¿½ï¿½ï¿½ï¿½getMessage()ï¿½ï¿½ï¿½ï¿½ï¿½Ğ·ï¿½ï¿½ï¿½ï¿½Ë¡ï¿½hello,world!ï¿½
+	 * ï¿½ï¿½Ö·ï¿½
 	 * 
-	 * @Bean ÓÃÓÚ±ê×¢1¸ö·½·¨£¬±íÊ¾1¸ö·½·¨ÊµÀı»¯¡¢ÅäÖÃ»ò³õÊ¼»¯1¸öĞÂµÄ¶ÔÏó(Object)£¬Õâ¸ö¶ÔÏó±»SpringµÄ¿ØÖÆ·´×ª(IoC)ÈİÆ÷¹ÜÀí£¬
-	 *       Ïàµ±ÓÚSpring <bean/>XMLÅäÖÃÎÄ¼şÖĞ<bean/>ÔªËØ¡££¨Ïê¼û¹Ù·½ÎÄµµ£©
+	 * @Bean 
+	 *       ï¿½ï¿½ï¿½Ú±ï¿½×¢1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½Ê¼ï¿½ï¿½1ï¿½ï¿½ï¿½ÂµÄ¶ï¿½ï¿½ï¿½(Object)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Spring
+	 *       ï¿½Ä¿ï¿½ï¿½Æ·ï¿½×ª(IoC)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½? ï¿½àµ±ï¿½ï¿½Spring
+	 *       <bean/>XMLï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½<bean/>Ôªï¿½Ø¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù·ï¿½ï¿½Äµï¿½ï¿½ï¿½
 	 * 
 	 * @return
 	 */
@@ -32,31 +36,32 @@ public class Application {
 
 	public static void main(String[] args) {
 		/*
-		 * ApplicationContextÊÇ¶Ô1¸öÀûÓÃ£¨Application)Ìá¹©ÅäÖÃµÄºËĞÄ½Ó¿Ú£¬
-		 * AnnotationConfigApplicationContextÊÇËüµÄ1¸öÊµÏÖ£¬
+		 * ApplicationContextï¿½Ç¶ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½Application)ï¿½á¹©ï¿½ï¿½ï¿½ÃµÄºï¿½ï¿½Ä½Ó¿Ú£ï¿½
+		 * AnnotationConfigApplicationContextï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Êµï¿½Ö£ï¿½
 		 * 
-		 * ¿ÉÓÃÀ´´¦ÀíÓÃ@Configuration,@ComponentºÍJSR¢Ç30±ê×¢µÄÀà¡£
+		 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@Configuration,@Componentï¿½ï¿½JSRï¿½ï¿½30ï¿½ï¿½×¢ï¿½ï¿½ï¿½à¡£
 		 * 
-		 * ÓÉÓÚApp.javaÊ¹ÓÃ@Configuration½øĞĞÁË±ê×¢
-		 * ¹ÊApp.class¿ÉÒÔ×÷ÎªAnnotationConfigApplicationContext¹¹ÔìÆ÷µÄµÄ²ÎÊı¡£
+		 * ï¿½ï¿½ï¿½ï¿½App.javaÊ¹ï¿½ï¿½@Configurationï¿½ï¿½ï¿½ï¿½ï¿½Ë±ï¿½×¢
+		 * ï¿½ï¿½App.classï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªAnnotationConfigApplicationContextï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄµÄ²ï¿½ï¿½ï¿½
 		 */
 		ApplicationContext context = new AnnotationConfigApplicationContext(
 				Application.class);
 		/*
-		 * Õâ¾ä´úÂëÍ¨¹ıcontextµÄgetBean(Class<T>)·½·¨µÃµ½ÁËMessagePrinterµÄ1¸öÊµÀı¡£
-		 * ÎªºÎÄØµÃµ½MessagePrinterÀàµÄ1¸öÊµÀıÄØ£¿
+		 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½contextï¿½ï¿½getBean(Class<T>)ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½MessagePrinterï¿½ï¿½1ï¿½ï¿½Êµï¿½ï¿½
+		 * Îªï¿½ï¿½ï¿½ØµÃµï¿½MessagePrinterï¿½ï¿½ï¿½1ï¿½ï¿½Êµï¿½ï¿½ï¿½Ø£ï¿½
 		 * 
-		 * ¿´getBean(Class<T>)µÄAPI½âÊÍ£º
+		 * ï¿½ï¿½getBean(Class<T>)ï¿½ï¿½APIï¿½ï¿½ï¿½Í£ï¿½
 		 * 
 		 * Return the bean instance that uniquely matches the given object type,
-		 * if any. £¨Èç¹û¸ø¶¨µÄ¶ÔÏóÎ¨1Æ¥Åä£¬¾Í·µ»Ø1¸öbeanÊµÀı¡££©
+		 * if any. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½Î¨1Æ¥ï¿½ä£¬ï¿½Í·ï¿½ï¿½ï¿½1ï¿½ï¿½beanÊµï¿½ï¿½
 		 */
 		MessagePrinter printer = context.getBean(MessagePrinter.class);
 		/*
-		 * Õâ¾Í±íÊ¾ÔÚÍ¨¹ıcontexnt.getBean(MessagePrinter.class)µÃµ½MessagePrinterµÄ1¸öÊµÀıÊ±£¬
-		 * »á½«¶ÔMessageServiceµÄÒÀÀµ×Ô¶¯°ó¶¨µ½MessageServiceÀà£¬
+		 * ï¿½ï¿½Í±ï¿½Ê¾ï¿½ï¿½Í¨ï¿½ï¿½contexnt.getBean(MessagePrinter.class)ï¿½Ãµï¿½MessagePrinterï¿½ï¿½1ï¿½ï¿½
+		 * Êµï¿½ï¿½Ê±ï¿½ï¿½ ï¿½á½«ï¿½ï¿½MessageServiceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ó¶¨µï¿½MessageServiceï¿½à£¬
 		 * 
-		 * ½«²éÕÒËùÓĞÄÜ×÷Îª<bean/>ÔªËØµÄÀà(@Component @Configuration±ê×¢)»ò·½·¨(@Bean±ê×¢)
+		 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª<bean/>Ôªï¿½Øµï¿½ï¿½ï¿½(@Component
+		 * @Configurationï¿½ï¿½×¢)ï¿½ò·½·ï¿½(@Beanï¿½ï¿½×¢)
 		 */
 		printer.printMessage();
 	}

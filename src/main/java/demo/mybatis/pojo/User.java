@@ -1,6 +1,8 @@
-package mybatis.demo.config;
+package demo.mybatis.pojo;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 	private int userId;
 	private String userName;
 	private String password;

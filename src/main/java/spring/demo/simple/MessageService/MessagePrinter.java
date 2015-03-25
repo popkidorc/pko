@@ -4,16 +4,16 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-//@Component  用于标注1个类
+//@Component  锟斤拷锟节憋拷注1锟斤拷锟斤拷
 @Component
 public class MessagePrinter {
 
-	// @Resource 用于标注setter方法，类成员等等，用于指定绑定注入；javax.annotation.Resource
+	// @Resource 锟斤拷锟节憋拷注setter锟斤拷锟斤拷锟斤拷锟斤拷锟皆憋拷鹊龋锟斤拷锟斤拷锟街革拷锟斤拷锟阶拷耄籮avax.annotation.Resource
 	@Resource(name = "MessageServiceImp2")
 	private MessageService service;
 
 	// @Autowired
-	// 用于标注setter方法，构造器，包括多个参数的方法，集合等等，用于自动绑定注入；org.springframework.beans.factory.annotation.Autowired
+	// 锟斤拷锟节憋拷注setter锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟侥凤拷锟斤拷锟斤拷锟斤拷锟较等等ｏ拷锟斤拷锟斤拷锟皆讹拷锟斤拷注锟诫；org.springframework.beans.factory.annotation.Autowired
 	// @Autowired
 	public MessagePrinter(MessageService service) {
 		this.service = service;
@@ -23,6 +23,6 @@ public class MessagePrinter {
 	}
 
 	public void printMessage() {
-		System.out.println(this.service.getMessage());
+		// System.out.println(this.service.getMessage());
 	}
 }
