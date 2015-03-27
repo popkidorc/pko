@@ -27,8 +27,6 @@ public class LoginController {
 			@RequestParam(value = "username", defaultValue = "") String username) {
 		// TODO 去数据库根据用户名查找用户对象
 		User user = userService.find(username);
-		user.setUserName(username);
-		user.setPassword("123");
 		return user;
 	}
 

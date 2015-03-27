@@ -12,11 +12,25 @@
 
 	<context:component-scan base-package="demo.mybatis" />
 
-	<!-- Transaction Support -->
+	<!-- @Transactional注解驱动 start 基于注解的方式使用事务配置声明 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	<!-- @Transactional注解驱动 end -->
 
+	<!-- Properties start -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config/database/*.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Properties end -->
+
+	<!-- Transactional start -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	<!-- Transactional end -->
 </beans>
