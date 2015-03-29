@@ -20,8 +20,9 @@
 	</bean>
 
 	<bean class="org.mybatis.extension.auto.driver.AutoDataSourceDriver">
-		<property name="auto" value="create" />
+		<property name="auto" value="update" />
 		<property name="showSql" value="true" />
+		<property name="formatSql" value="true" />
 		<property name="testSql" value="select 1 from dual;" />
 		<property name="autoPackages">
 			<list>
@@ -46,7 +47,7 @@
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="demo.mybatis.dao" />
+		<property name="basePackage" value="demo.*.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 </beans>

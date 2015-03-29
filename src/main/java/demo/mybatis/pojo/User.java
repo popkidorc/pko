@@ -23,6 +23,9 @@ public class User implements Serializable {
 	@Field
 	private String comment;
 
+	@Field
+	private String userType;
+
 	public int getUserId() {
 		return userId;
 	}
@@ -53,5 +56,13 @@ public class User implements Serializable {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 }
