@@ -18,7 +18,7 @@
 
 	<!-- Properties start -->
 	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		class="org.springframework.beans.factory.config.reconstruct.PropertyPlaceholderConfigurerEncrypt">
 		<property name="locations">
 			<list>
 				<value>classpath:config/database/*.properties</value>

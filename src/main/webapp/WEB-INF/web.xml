@@ -36,6 +36,11 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<!-- spring listener end -->
+	<!-- mybatis auto listener start -->
+	<listener>
+		<listener-class>org.mybatis.extension.auto.listener.AutoDatabaseListener</listener-class>
+	</listener>
+	<!-- mybatis auto listener end -->
 	<!-- spring MVC start -->
 	<servlet>
 		<servlet-name>springMVC</servlet-name>
