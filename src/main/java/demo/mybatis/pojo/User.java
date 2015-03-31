@@ -20,7 +20,7 @@ public class User implements Serializable {
 	@Field
 	private String password;
 
-	@Field
+	@Field(fKey = { @ForeignKey(fieldName = "fieldName", tableName = "Test_TableName") })
 	private String comment;
 
 	@Field

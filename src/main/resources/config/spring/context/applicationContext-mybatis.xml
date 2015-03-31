@@ -26,7 +26,7 @@
 		<property name="testSql" value="select 1 from dual;" />
 		<property name="autoPackages">
 			<list>
-				<value>demo.*.pojo</value>
+				<value>demo.mybatis.pojo</value>
 			</list>
 		</property>
 		<property name="dataSource" ref="dataSource" />
