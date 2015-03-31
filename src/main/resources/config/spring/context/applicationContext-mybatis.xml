@@ -20,7 +20,7 @@
 	</bean>
 
 	<bean class="org.mybatis.extension.auto.driver.AutoDataSourceDriver">
-		<property name="auto" value="update" />
+		<property name="auto" value="create" />
 		<property name="showSql" value="true" />
 		<property name="formatSql" value="true" />
 		<property name="testSql" value="select 1 from dual;" />

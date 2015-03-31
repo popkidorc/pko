@@ -12,7 +12,8 @@ import org.mybatis.extension.auto.annotation.Entity;
 import org.mybatis.extension.auto.annotation.Field;
 import org.mybatis.extension.auto.annotation.ForeignKey;
 import org.mybatis.extension.auto.annotation.Id;
-import org.mybatis.extension.auto.sql.MysqlForeignKeySql;
+import org.mybatis.extension.auto.sql.MysqlConstraintSql;
+import org.mybatis.extension.auto.sql.MysqlTableSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
@@ -44,184 +45,35 @@ public class MysqlDialect extends DatabaseDialect {
 
 	@Override
 	public void create() throws SQLException {
-		System.out.println("======create====");
+		System.out.println("====create====");
 		List<String> sqls = new ArrayList<String>();
-		List<String> foreignSqls = new ArrayList<String>();
 		// Cancel the foreign key constraints , for the create or update
-		sqls.add("SET FOREIGN_KEY_CHECKS = 0;");
+		MysqlConstraintSql mysqlConstraintSql = new MysqlConstraintSql(
+				this.connection, this.isFormatSql);
+		sqls.add(mysqlConstraintSql.getDisableConstraintSqls().toString());
 		for (Class<?> clazz : this.clazzes) {
-			StringBuffer sql = new StringBuffer("");
-			String idField = "";
 			if (!clazz.isAnnotationPresent(Entity.class)) {
 				continue;
 			}
-			Entity tableAnnotion = (Entity) clazz.getAnnotation(Entity.class);
-			String tableName = tableAnnotion.tableName();
-			if (tableName.equals("")) {
-				tableName = ClassUtils.getShortName(clazz).toUpperCase();
-			}
-			sqls.add("DROP TABLE IF EXISTS " + tableName + ";");
-			sql.append("CREATE TABLE " + tableName);
-			sql.append("(" + "\n");
-			java.lang.reflect.Field[] fields = clazz.getDeclaredFields();
-			for (java.lang.reflect.Field field : fields) {
-				if (!field.isAnnotationPresent(Field.class)) {
-					continue;
-				}
-				Field fieldAnnotion = (Field) field.getAnnotation(Field.class);
-				String fieldName = fieldAnnotion.fieldName();
-				String fieldType = fieldAnnotion.type().toString();
-				int fieldLength = fieldAnnotion.length();
-				boolean fieldNullable = fieldAnnotion.nullable();
-				boolean fieldIsId = field.isAnnotationPresent(Id.class);
-				String fieldIdType = null;
-				if (fieldIsId) {
-					fieldIdType = field.getAnnotation(Id.class).idType()
-							.toString();
-				}
-				if (fieldName.equals("")) {
-					fieldName = field.getName().toUpperCase();
-				}
-				if (fieldIsId) {
-					fieldType = "INT";
-					fieldLength = 11;
-					sql.append("\t" + fieldName + " " + fieldType + "("
-							+ fieldLength + ") NOT NULL AUTO_INCREMENT");
-				} else {
-					if (fieldAnnotion.fKey().length > 0) {
-						ForeignKey foreignKey = fieldAnnotion.fKey()[0];
-						String foreignKeyTableName = foreignKey.tableName();
-						String foreignKeyFieldName = foreignKey.fieldName();
-						if (!foreignKeyTableName.equals("")
-								&& !foreignKeyFieldName.equals("")) {
-							String foreign_key_name = "FK_" + tableName + "_"
-									+ fieldName;
-							StringBuffer foreignSql = new StringBuffer("");
-							foreignSql.append("ALTER TABLE " + tableName + " ");
-							foreignSql.append("ADD CONSTRAINT "
-									+ foreign_key_name + " FOREIGN KEY("
-									+ fieldName + ") REFERENCES "
-									+ foreignKeyTableName + "("
-									+ foreignKeyFieldName + ");\n");
-							foreignSqls.add(foreignSql.toString());
-							fieldType = "INT";
-							fieldLength = 11;
-						}
-					}
-					if (fieldType.endsWith("INT")) {
-						fieldLength = fieldLength == 255 ? 11 : fieldLength;
-					}
-					sql.append("\t" + fieldName + " " + fieldType + "("
-							+ fieldLength + ")");
-					sql.append(fieldNullable ? "" : " NOT NULL");
-				}
-				if (idField.equals("")) {
-					idField = fieldIsId ? fieldName : "";
-				}
-				sql.append(",\n");
-			}
-			if (!idField.equals("")) {
-				sql.append("\tPRIMARY KEY (" + idField + ")");
-			}
-			sql.append("\n);");
-			sqls.add(sql.toString());
+			MysqlTableSql mysqlTableSql = new MysqlTableSql(this.connection,
+					this.isFormatSql, clazz);
+			sqls.add(mysqlTableSql.getDropTable().toString());
+			sqls.add(mysqlTableSql.getCreateTable().toString());
+			sqls.addAll(mysqlTableSql.getForeignSqls());
 		}
-		sqls.addAll(foreignSqls);
-		sqls.add("SET FOREIGN_KEY_CHECKS = 1;");
+		sqls.add(mysqlConstraintSql.getEnableConstraintSqls().toString());
 		this.executeSqls(sqls);
-	}
-
-	public void createTest() throws SQLException {
-		System.out.println("======create====");
-		List<String> sqls = new ArrayList<String>();
-		List<String> foreignSqls = new ArrayList<String>();
-		// Cancel the foreign key constraints , for the create or update
-		sqls.add("SET FOREIGN_KEY_CHECKS = 0;");
-		for (Class<?> clazz : this.clazzes) {
-			StringBuffer sql = new StringBuffer("");
-			String idField = "";
-			if (!clazz.isAnnotationPresent(Entity.class)) {
-				continue;
-			}
-			Entity tableAnnotion = (Entity) clazz.getAnnotation(Entity.class);
-			String tableName = tableAnnotion.tableName();
-			if (tableName.equals("")) {
-				tableName = ClassUtils.getShortName(clazz).toUpperCase();
-			}
-			sqls.add("DROP TABLE IF EXISTS " + tableName + ";");
-			sql.append("CREATE TABLE " + tableName + "(\n");
-			java.lang.reflect.Field[] fields = clazz.getDeclaredFields();
-			for (java.lang.reflect.Field field : fields) {
-				if (!field.isAnnotationPresent(Field.class)) {
-					continue;
-				}
-				Field fieldAnnotion = (Field) field.getAnnotation(Field.class);
-				String fieldName = fieldAnnotion.fieldName();
-				String fieldType = fieldAnnotion.type().toString();
-				int fieldLength = fieldAnnotion.length();
-				boolean fieldNullable = fieldAnnotion.nullable();
-				boolean fieldIsId = field.isAnnotationPresent(Id.class);
-				String fieldIdType = null;
-				if (fieldIsId) {
-					fieldIdType = field.getAnnotation(Id.class).idType()
-							.toString();
-				}
-				if (fieldName.equals("")) {
-					fieldName = field.getName().toUpperCase();
-				}
-				if (fieldIsId) {
-					fieldType = "INT";
-					fieldLength = 11;
-					sql.append("\t" + fieldName + " " + fieldType + "("
-							+ fieldLength + ") NOT NULL AUTO_INCREMENT");
-				} else {
-					if (fieldAnnotion.fKey().length > 0) {
-						ForeignKey foreignKey = fieldAnnotion.fKey()[0];
-						String foreignKeyTableName = foreignKey.tableName();
-						String foreignKeyFieldName = foreignKey.fieldName();
-						if (!foreignKeyTableName.equals("")
-								&& !foreignKeyFieldName.equals("")) {
-							MysqlForeignKeySql mysqlForeignKeySql = new MysqlForeignKeySql(
-									fieldIsId, tableName, fieldName,
-									foreignKeyTableName, foreignKeyFieldName);
-							foreignSqls.add(mysqlForeignKeySql
-									.getCreateForeignKey().toString());
-							fieldType = "INT";
-							fieldLength = 11;
-						}
-					}
-					if (fieldType.endsWith("INT")) {
-						fieldLength = fieldLength == 255 ? 11 : fieldLength;
-					}
-					sql.append("\t" + fieldName + " " + fieldType + "("
-							+ fieldLength + ")");
-					sql.append(fieldNullable ? "" : " NOT NULL");
-				}
-				if (idField.equals("")) {
-					idField = fieldIsId ? fieldName : "";
-				}
-				sql.append(",\n");
-			}
-			if (!idField.equals("")) {
-				sql.append("\tPRIMARY KEY (" + idField + ")");
-			}
-			sql.append("\n);");
-			sqls.add(sql.toString());
-		}
-		sqls.addAll(foreignSqls);
-		sqls.add("SET FOREIGN_KEY_CHECKS = 1;");
-		for (String string : sqls) {
-			System.out.println(string);
-		}
 	}
 
 	@Override
 	public void update() throws SQLException {
-		System.out.println("======update====");
+		System.out.println("====update====");
 		List<String> sqls = new ArrayList<String>();
 		List<String> foreignSqls = new ArrayList<String>();
 		List<String> alterUpdateSqls = new ArrayList<String>();
-		sqls.add("SET FOREIGN_KEY_CHECKS = 0;");
+		MysqlConstraintSql mysqlConstraintSql = new MysqlConstraintSql(
+				this.connection, this.isFormatSql);
+		sqls.add(mysqlConstraintSql.getDisableConstraintSqls().toString());
 		for (Class<?> clazz : this.clazzes) {
 			StringBuffer sql = new StringBuffer("");
 			String idField = "";
@@ -333,7 +185,7 @@ public class MysqlDialect extends DatabaseDialect {
 		}
 		sqls.addAll(foreignSqls);
 		sqls.addAll(alterUpdateSqls);
-		sqls.add("SET FOREIGN_KEY_CHECKS = 1;");
+		sqls.add(mysqlConstraintSql.getEnableConstraintSqls().toString());
 		this.executeSqls(sqls);
 	}
 

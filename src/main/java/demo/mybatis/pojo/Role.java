@@ -9,39 +9,38 @@ import org.mybatis.extension.auto.annotation.Id;
 import org.mybatis.extension.auto.annotation.IdType;
 
 @Entity
-public class User implements Serializable {
+public class Role implements Serializable {
 
 	@Field
 	@Id(idType = IdType.AUTO_INCREMENT)
-	private int userId;
+	private int roleId;
 
 	@Field
-	private String userName;
+	private String roleName;
 
 	@Field
-	@Id
 	private String password;
 
-	@Field(fKey = { @ForeignKey(fieldName = "TEST", tableName = "TESTFIELD") })
+	@Field(fKey = { @ForeignKey(fieldName = "USER", tableName = "COMMENT") })
 	private String comment;
 
 	@Field
-	private String userType;
+	private String roleType;
 
-	public int getUserId() {
-		return userId;
+	public int getRoleId() {
+		return roleId;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getRoleName() {
+		return roleName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 	public String getPassword() {
@@ -60,11 +59,12 @@ public class User implements Serializable {
 		this.comment = comment;
 	}
 
-	public String getUserType() {
-		return userType;
+	public String getRoleType() {
+		return roleType;
 	}
 
-	public void setUserType(String userType) {
-		this.userType = userType;
+	public void setRoleType(String roleType) {
+		this.roleType = roleType;
 	}
+
 }
