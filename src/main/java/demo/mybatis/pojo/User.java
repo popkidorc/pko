@@ -6,7 +6,7 @@ import org.mybatis.extension.auto.annotation.Entity;
 import org.mybatis.extension.auto.annotation.Field;
 import org.mybatis.extension.auto.annotation.ForeignKey;
 import org.mybatis.extension.auto.annotation.Id;
-import org.mybatis.extension.auto.annotation.IdType;
+import org.mybatis.extension.auto.type.IdType;
 
 @Entity
 public class User implements Serializable {
@@ -22,7 +22,7 @@ public class User implements Serializable {
 	@Id
 	private String password;
 
-	@Field(fKey = { @ForeignKey(fieldName = "TEST", tableName = "TESTFIELD") })
+	@Field(fKey = { @ForeignKey(fieldName = "IDTEST", tableName = "TEST") })
 	private String comment;
 
 	@Field

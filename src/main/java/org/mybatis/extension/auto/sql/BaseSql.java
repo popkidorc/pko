@@ -1,19 +1,22 @@
 package org.mybatis.extension.auto.sql;
 
-import java.sql.Connection;
+import org.mybatis.extension.auto.driver.AutoDataSourceParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public abstract class BaseSql {
+public class BaseSql {
 
-	protected Connection connection;
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	protected boolean isFormatSql;
+	protected AutoDataSourceParam autoDataSourceParam;
 
 	protected StringBuffer sql;
 
-	public BaseSql(Connection connection, boolean isFormatSql) {
-		super();
-		this.connection = connection;
-		this.isFormatSql = isFormatSql;
+	/**
+	 * @param autoDataSourceParam
+	 */
+	public BaseSql(AutoDataSourceParam autoDataSourceParam) {
+		this.autoDataSourceParam = autoDataSourceParam;
 	}
 
 }

@@ -1,7 +1,9 @@
 package org.mybatis.extension.auto.dialect;
 
-import java.sql.Connection;
-import java.util.List;
+import java.sql.SQLException;
+
+import org.mybatis.extension.auto.driver.AutoDataSourceParam;
+import org.mybatis.extension.auto.type.AutoType;
 
 /**
  * 
@@ -13,21 +15,43 @@ import java.util.List;
  */
 public abstract class DatabaseDialect implements IDatabaseDialect {
 
-	protected Connection connection;
+	protected AutoDataSourceParam autoDataSourceParam;
 
-	protected boolean isShowSql;
-
-	protected boolean isFormatSql;
-
-	protected List<Class<?>> clazzes;
-
-	public DatabaseDialect(Connection connection, boolean isShowSql,
-			boolean isFormatSql, List<Class<?>> clazzes) {
-		super();
-		this.connection = connection;
-		this.isShowSql = isShowSql;
-		this.isFormatSql = isFormatSql;
-		this.clazzes = clazzes;
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param autoDataSourceParam
+	 */
+	public DatabaseDialect(AutoDataSourceParam autoDataSourceParam) {
+		this.autoDataSourceParam = autoDataSourceParam;
 	}
 
+	@Override
+	public void invoke() throws SQLException {
+		if (this.autoDataSourceParam.getAuto().equalsIgnoreCase(
+				AutoType.CREATE.toString()))
+			this.create();
+		if (this.autoDataSourceParam.getAuto().equalsIgnoreCase(
+				AutoType.UPDATE.toString()))
+			this.update();
+	}
+
+	/**
+	 * 
+	 * Create the table using the clazzes , will delete existing data and tables
+	 * 
+	 * @throws SQLException
+	 */
+	protected abstract void create() throws SQLException;
+
+	/**
+	 * 
+	 * Update the table using the clazzes, add or update a column does not
+	 * delete the existing data and tables, delete a column will delete the data
+	 * in the column
+	 * 
+	 * @throws SQLException
+	 */
+	protected abstract void update() throws SQLException;
 }

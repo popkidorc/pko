@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 
 import org.mybatis.extension.auto.dialect.IDatabaseDialect;
 import org.mybatis.extension.auto.parse.EntityParseScanPackage;
+import org.mybatis.extension.auto.type.AutoType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,24 +26,6 @@ import org.slf4j.LoggerFactory;
  */
 public class AutoDataSourceDriver {
 	private Logger logger = LoggerFactory.getLogger(getClass());
-
-	/**
-	 * Automatically create table type constant : 'CREATE'. Drop tables and data
-	 * , and create tables.
-	 */
-	private static final String AUTOTYPE_CREATE = "CREATE";
-
-	/**
-	 * Automatically create table type constant : 'UPDATE'. Don't drop tables
-	 * (including columns) and data , and alter new columns.
-	 */
-	private static final String AUTOTYPE_UPDATE = "UPDATE";
-
-	/**
-	 * Automatically create table type constant : 'NONE'. Don't do any
-	 * operation.
-	 */
-	private static final String AUTOTYPE_NONE = "NONE";
 
 	/**
 	 * Automatically create table type, optional values: 'create' or 'update' or
@@ -152,7 +135,7 @@ public class AutoDataSourceDriver {
 	public void initialization() throws SQLException, ClassNotFoundException,
 			InstantiationException, IllegalAccessException, Exception {
 		this.testSql();
-		if (this.getAuto().equalsIgnoreCase(AUTOTYPE_NONE)) {
+		if (this.getAuto().equalsIgnoreCase(AutoType.NONE.toString())) {
 			return;
 		}
 
@@ -168,16 +151,14 @@ public class AutoDataSourceDriver {
 			logger.info("EntityParseScanPackage clazzes : " + clazz.getName());
 		}
 		Class<?> dialectClass = Class.forName(this.getDialectClassName());
-		Constructor<?> constructor = dialectClass.getConstructor(
-				Connection.class, boolean.class, boolean.class, List.class);
+		AutoDataSourceParam autoDataSourceParam = new AutoDataSourceParam(this
+				.getDataSource().getConnection(), this.isShowSql(),
+				this.isFormatSql(), this.getAuto(), clazzes);
+		Constructor<?> constructor = dialectClass
+				.getConstructor(AutoDataSourceParam.class);
 		IDatabaseDialect databaseDialect = (IDatabaseDialect) constructor
-				.newInstance(this.getDataSource().getConnection(),
-						this.isShowSql(), this.isFormatSql(), clazzes);
-		if (this.getAuto().equalsIgnoreCase(AUTOTYPE_CREATE)) {
-			databaseDialect.create();
-		} else if (this.getAuto().equalsIgnoreCase(AUTOTYPE_UPDATE)) {
-			databaseDialect.update();
-		}
+				.newInstance(autoDataSourceParam);
+		databaseDialect.invoke();
 	}
 
 	/**

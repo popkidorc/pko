@@ -1,4 +1,4 @@
-package org.mybatis.extension.auto.annotation;
+package org.mybatis.extension.auto.type;
 
 /**
  * 

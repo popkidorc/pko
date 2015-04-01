@@ -1,11 +1,12 @@
 package org.mybatis.extension.auto.sql;
 
-import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.extension.auto.annotation.Entity;
 import org.mybatis.extension.auto.annotation.Field;
+import org.mybatis.extension.auto.driver.AutoDataSourceParam;
 import org.springframework.util.ClassUtils;
 
 public class MysqlTableSql extends BaseSql {
@@ -16,18 +17,18 @@ public class MysqlTableSql extends BaseSql {
 
 	private List<String> foreignSqls;
 
+	private List<String> alterSqls;
+
 	public List<String> getForeignSqls() {
 		return foreignSqls;
 	}
 
-	/**
-	 * @param isFormatSql
-	 * @param tableName
-	 * @param clazz
-	 */
-	public MysqlTableSql(Connection connection, boolean isFormatSql,
-			Class<?> clazz) {
-		super(connection, isFormatSql);
+	public List<String> getAlterSqls() {
+		return alterSqls;
+	}
+
+	public MysqlTableSql(AutoDataSourceParam autoDataSourceParam, Class<?> clazz) {
+		super(autoDataSourceParam);
 		// Prepare parameters
 		Entity tableAnnotion = (Entity) clazz.getAnnotation(Entity.class);
 		this.tableName = tableAnnotion.tableName().equals("") ? ClassUtils
@@ -35,17 +36,18 @@ public class MysqlTableSql extends BaseSql {
 		this.clazz = clazz;
 		// Prepare variable
 		this.foreignSqls = new ArrayList<String>();
+		this.alterSqls = new ArrayList<String>();
 	}
 
-	public StringBuffer getCreateTable() {
+	public StringBuffer getCreateTable() throws SQLException {
 		this.sql = new StringBuffer();
-		if (this.isFormatSql) {
+		if (this.autoDataSourceParam.isFormatSql()) {
 			this.sql.append("\n");
 		}
 		List<String> primaryKeys = new ArrayList<String>();
 		this.sql.append("CREATE TABLE IF NOT EXISTS " + this.tableName);
 		this.sql.append("(");
-		if (this.isFormatSql) {
+		if (this.autoDataSourceParam.isFormatSql()) {
 			this.sql.append("\n");
 		}
 
@@ -55,14 +57,18 @@ public class MysqlTableSql extends BaseSql {
 				continue;
 			}
 			// generate column SQL statement
-			MysqlColumnSql mysqlColumnSql = new MysqlColumnSql(this.connection,
-					this.isFormatSql, this.tableName, field);
+			MysqlColumnSql mysqlColumnSql = new MysqlColumnSql(
+					this.autoDataSourceParam, this.tableName, field);
 			primaryKeys.addAll(mysqlColumnSql.getPrimaryKeys());
+
 			this.foreignSqls.addAll(mysqlColumnSql.getForeignSqls());
+			StringBuffer alterSql = mysqlColumnSql.getAlterSql();
+			if (alterSql != null)
+				this.alterSqls.add(alterSql.toString());
 			this.sql.append(mysqlColumnSql.getColumnSql());
 		}
 		MysqlPrimaryKeySql mysqlPrimaryKeySql = new MysqlPrimaryKeySql(
-				this.connection, this.isFormatSql, primaryKeys);
+				this.autoDataSourceParam, primaryKeys);
 		this.sql.append(mysqlPrimaryKeySql.getPrimaryKeySqls());
 		this.sql.deleteCharAt(this.sql.lastIndexOf(","));
 		this.sql.append(");");
@@ -71,7 +77,7 @@ public class MysqlTableSql extends BaseSql {
 
 	public StringBuffer getDropTable() {
 		this.sql = new StringBuffer();
-		if (this.isFormatSql) {
+		if (this.autoDataSourceParam.isFormatSql()) {
 			this.sql.append("\n");
 		}
 		this.sql.append("DROP TABLE IF EXISTS ");
