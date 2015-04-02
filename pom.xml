@@ -102,7 +102,11 @@
 			<artifactId>jstl</artifactId>
 			<version>${version_jstl}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-auto</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>pko</finalName>

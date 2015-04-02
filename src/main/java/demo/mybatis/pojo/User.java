@@ -2,30 +2,30 @@ package demo.mybatis.pojo;
 
 import java.io.Serializable;
 
-import org.mybatis.extension.auto.annotation.Entity;
-import org.mybatis.extension.auto.annotation.Field;
+import org.mybatis.extension.auto.annotation.Column;
 import org.mybatis.extension.auto.annotation.ForeignKey;
 import org.mybatis.extension.auto.annotation.Id;
+import org.mybatis.extension.auto.annotation.Table;
 import org.mybatis.extension.auto.type.IdType;
 
-@Entity
+@Table
 public class User implements Serializable {
 
-	@Field
+	@Column
 	@Id(idType = IdType.AUTO_INCREMENT)
 	private int userId;
 
-	@Field
+	@Column
 	private String userName;
 
-	@Field
+	@Column
 	@Id
 	private String password;
 
-	@Field(fKey = { @ForeignKey(fieldName = "IDTEST", tableName = "TEST") })
+	@Column(fKey = { @ForeignKey(columnName = "IDTEST", tableName = "TEST") })
 	private String comment;
 
-	@Field
+	@Column
 	private String userType;
 
 	public int getUserId() {

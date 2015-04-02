@@ -2,31 +2,40 @@ package demo.mybatis.pojo;
 
 import java.io.Serializable;
 
-import org.mybatis.extension.auto.annotation.Entity;
-import org.mybatis.extension.auto.annotation.Field;
+import org.mybatis.extension.auto.annotation.Column;
 import org.mybatis.extension.auto.annotation.ForeignKey;
 import org.mybatis.extension.auto.annotation.Id;
-import org.mybatis.extension.auto.type.FieldType;
+import org.mybatis.extension.auto.annotation.Table;
+import org.mybatis.extension.auto.type.ColumnType;
 import org.mybatis.extension.auto.type.IdType;
 
-@Entity
+@Table
 public class Role implements Serializable {
 
-	@Field
-	@Id(idType = IdType.AUTO_INCREMENT)
+	@Column
 	private int roleId;
 
-	@Field
+	@Column
 	private String roleName;
 
-	@Field
+	@Column
 	private String password;
 
-	@Field(type = FieldType.INT, fKey = { @ForeignKey(fieldName = "USERID", tableName = "USER") })
+	@Column(type = ColumnType.INT, fKey = { @ForeignKey(columnName = "USERID", tableName = "USER") })
 	private String comment;
 
-	@Field
+	@Column
 	private String roleType;
+
+	@Column
+	private String groupId;
+
+	@Column(type = ColumnType.INT, fKey = { @ForeignKey(columnName = "USERIDt", tableName = "USERt") })
+	private String groupType;
+
+	@Column
+	@Id(idType = IdType.AUTO_INCREMENT)
+	private int rolekeyId;
 
 	public int getRoleId() {
 		return roleId;
