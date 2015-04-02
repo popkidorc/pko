@@ -12,14 +12,13 @@ import org.mybatis.extension.auto.type.IdType;
 public class User implements Serializable {
 
 	@Column
-	@Id(idType = IdType.AUTO_INCREMENT)
+	@Id
 	private int userId;
 
-	@Column
+	@Column(comment = "userName")
 	private String userName;
 
 	@Column
-	@Id
 	private String password;
 
 	@Column(fKey = { @ForeignKey(columnName = "IDTEST", tableName = "TEST") })

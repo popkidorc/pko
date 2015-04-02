@@ -9,13 +9,14 @@ import org.mybatis.extension.auto.annotation.Table;
 import org.mybatis.extension.auto.type.ColumnType;
 import org.mybatis.extension.auto.type.IdType;
 
-@Table
+@Table(comment = "role")
 public class Role implements Serializable {
 
 	@Column
+	@Id
 	private int roleId;
 
-	@Column
+	@Column(comment = "role")
 	private String roleName;
 
 	@Column
@@ -34,7 +35,6 @@ public class Role implements Serializable {
 	private String groupType;
 
 	@Column
-	@Id(idType = IdType.AUTO_INCREMENT)
 	private int rolekeyId;
 
 	public int getRoleId() {
