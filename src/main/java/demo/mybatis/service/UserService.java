@@ -9,7 +9,7 @@ import demo.mybatis.pojo.User;
 @Service
 public class UserService implements IUserService {
 
-	@Autowired
+//	@Autowired
 	private IUserDao userDao;
 
 	@Override
